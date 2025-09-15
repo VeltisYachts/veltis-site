@@ -50,13 +50,14 @@
 
     header.brand{display:grid;justify-items:center;gap:12px;margin-bottom:clamp(20px,4vw,36px)}
     .logo-wrap{position:relative;width:clamp(160px,28vw,260px);margin-inline:auto}
-    /* Copper tint restored */
-    .logo-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: sepia(1) saturate(5) hue-rotate(340deg) brightness(0.9);
-}
+    /* Copper mask logo */
+    .logo-mask{
+      width:100%;
+      aspect-ratio:1/1;
+      background-color:var(--copper);
+      -webkit-mask:url("Veltis Logo.png") center/contain no-repeat;
+              mask:url("Veltis Logo.png") center/contain no-repeat;
+    }
     .wordmark{font-size:clamp(28px,5vw,42px);letter-spacing:.18em;font-weight:500;color:var(--copper)}
     .motto{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;font-weight:400;letter-spacing:.04em;color:var(--fg);margin-top:2px}
     .tagline{text-transform:uppercase;letter-spacing:.22em;font-size:.9rem;color:var(--muted);margin-top:12px}
@@ -107,7 +108,7 @@
     <section id="home" class="panel page" role="region" aria-labelledby="brand">
       <header class="brand">
         <div class="logo-wrap">
-          <img class="logo-img" alt="VELTIS logo" src="Veltis Logo.png" />
+          <div class="logo-mask" aria-label="VELTIS logo"></div>
         </div>
         <div class="wordmark" id="brand">VELTIS</div>
         <div class="motto">Expertise anchored in excellence</div>
@@ -151,7 +152,7 @@
     <section id="vault" class="panel page" role="region" aria-labelledby="vault-title">
       <header class="brand" style="margin-bottom:12px;">
         <div class="logo-wrap" style="width:clamp(120px,20vw,180px)">
-          <img class="logo-img" alt="VELTIS logo" src="Veltis Logo.png" />
+          <div class="logo-mask" aria-label="VELTIS logo"></div>
         </div>
         <div class="tagline" style="color:var(--olive-ink)">Authorised access</div>
       </header>
