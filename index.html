@@ -9,6 +9,7 @@
   <link rel="canonical" href="https://www.veltisyachts.com/" />
   <meta name="keywords" content="Veltis, superyacht management, yacht engineering, yacht technical management, yacht services" />
 
+  <!-- Social -->
   <meta property="og:title" content="VELTIS Yachts" />
   <meta property="og:description" content="Discreet superyacht management and technical expertise for private clients." />
   <meta property="og:url" content="https://www.veltisyachts.com/" />
@@ -27,9 +28,10 @@
       --bg:#f8f8f6; --fg:#0b0b0b; --muted:#6b705e;
       --olive:#4A5D23; --olive-ink:#3f5120;
       --gold:#C9A96A; 
-      --copper:#9c5e2d;   /* darker bronze-copper */
-      --copper-light:#b8743d;
+      --copper:#9c5e2d;      /* darker bronze-copper */
+      --copper-light:#b8743d; /* lighter for gradients */
       --line:#e0e0dc; --panel:#ffffff;
+      --shimmer: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.65) 45%, rgba(255,255,255,0) 70%);
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
@@ -37,8 +39,9 @@
       color:var(--fg);
       background:linear-gradient(180deg,#fff,var(--bg));
       font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-      line-height:1.65;-webkit-font-smoothing:antialiased;
+      line-height:1.65; -webkit-font-smoothing:antialiased;
     }
+
     .wrap{min-height:100%;display:grid;place-items:center;padding:6vh 5vw}
     .panel{
       width:100%;max-width:960px;padding:clamp(28px,6vw,72px);
@@ -48,43 +51,164 @@
     }
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    header.brand{display:grid;justify-items:center;gap:1px;margin-bottom:clamp(20px,4vw,36px)}
-    .logo-wrap{position:relative;width:clamp(160px,28vw,260px);margin-inline:auto}
+    /* Brand header */
+    header.brand{
+      display:flex;             /* tighter control than grid */
+      flex-direction:column;
+      align-items:center;
+      gap:0;
+      margin-bottom:clamp(20px,4vw,36px);
+      position:relative;
+    }
+    .logo-wrap{
+      position:relative;
+      width:clamp(160px,28vw,260px);
+      margin-inline:auto;
+      margin:0;
+    }
+    /* Copper mask logo (exact tone) */
     .logo-mask{
       width:100%;
       aspect-ratio:1/1;
       background-color:var(--copper);
       -webkit-mask:url("Veltis Logo.png") center/contain no-repeat;
               mask:url("Veltis Logo.png") center/contain no-repeat;
+      display:block;
+      position:relative;
+      overflow:hidden;
     }
-    .wordmark{margin: 0;font-size:clamp(28px,5vw,42px);letter-spacing:.18em;font-weight:500;color:var(--copper)}
-    .motto{margin-top: 2px;font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;font-weight:400;letter-spacing:.04em;color:var(--fg);margin-top:2px}
-    .tagline{text-transform:uppercase;letter-spacing:.22em;font-size:.9rem;color:var(--muted);margin-top:12px}
 
-    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:clamp(18px,3vw,28px) 0}
+    /* Shimmer on hover (logo) */
+    .logo-wrap:hover .logo-mask::after{
+      content:"";
+      position:absolute; inset:0;
+      background:var(--shimmer);
+      transform:skewX(-18deg) translateX(-120%);
+      animation: sheen 1200ms ease-out forwards;
+      pointer-events:none;
+    }
+    @keyframes sheen{
+      to{ transform:skewX(-18deg) translateX(120%); }
+    }
+
+    .wordmark{
+      margin:0;
+      line-height:1;
+      margin-top:-6px;                /* pull closer to logo */
+      font-size:clamp(28px,5vw,42px);
+      letter-spacing:.18em;
+      font-weight:500;
+      color:var(--copper);
+      position:relative;
+    }
+    /* Shimmer on hover (wordmark) */
+    .wordmark:hover{
+      background-image:linear-gradient(90deg,var(--copper),#c07a3d,var(--copper));
+      background-size:200% 100%;
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+      animation: shimmerText 1.2s linear forwards;
+    }
+    @keyframes shimmerText{ to{ background-position: -200% 0; } }
+
+    .motto{
+      margin:2px 0 0 0;
+      line-height:1.2;
+      font-family:'Playfair Display',serif;
+      font-size:1rem; font-style:italic; font-weight:400; letter-spacing:.04em; color:var(--fg);
+    }
+
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--line), transparent);
+      margin:clamp(18px,3vw,28px) 0;
+      position:relative; overflow:hidden;
+    }
+    /* Shimmer on hover (divider) */
+    .divider:hover::after{
+      content:""; position:absolute; inset:0;
+      background:var(--shimmer);
+      transform:translateX(-120%);
+      animation: sheen 900ms ease-out forwards;
+    }
+
     .section{display:grid;gap:40px;margin-top:20px;justify-items:center}
-    .label{display:block;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .label{
+      display:block;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+      position:relative; overflow:hidden;
+    }
+    .label:hover::after{ /* shimmer on labels */
+      content:""; position:absolute; inset:0;
+      background:var(--shimmer);
+      transform:translateX(-120%);
+      animation: sheen 900ms ease-out forwards;
+    }
+
     .contact{display:grid;gap:12px;font-size:clamp(16px,2.2vw,18px);justify-items:center}
-    .contact a{color:var(--fg);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
-    .contact a:hover{color:var(--copper);border-color:var(--copper)}
-    .block{width:100%;max-width:420px;padding-bottom:20px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--gold),transparent) 1;transition:border-image .3s}
-    .block:hover{border-image:linear-gradient(90deg,transparent,#e7c984,transparent) 1}
-    .block:last-child{border-bottom:none}
+    .contact a{
+      color:var(--fg);
+      text-decoration:none;
+      border-bottom:1px solid transparent;
+      transition:border-color .2s ease, color .2s ease, transform .2s ease;
+      display:block;
+    }
+    .contact a:hover{ color:var(--copper); border-color:var(--copper); transform:translateY(-1px); }
+    .contact a strong{ color:var(--copper); font-weight:600; }
 
-    .cta{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;text-decoration:none;font-size:1rem}
-    .btn-copper{border:1px solid var(--copper);background:linear-gradient(180deg,var(--copper),var(--copper-light));color:#fff;box-shadow:0 4px 14px rgba(156,94,45,.3)}
-    .btn-copper:hover{filter:brightness(1.05)}
-    .btn-olive{border:1px solid var(--olive);background:linear-gradient(180deg,#54692a,var(--olive));color:#fff;box-shadow:0 4px 14px rgba(74,93,35,.25)}
-    .btn-olive:hover{filter:brightness(1.05)}
+    .block{
+      width:100%; max-width:420px; padding-bottom:20px;
+      border-bottom:1px solid transparent;
+      border-image:linear-gradient(90deg, transparent, var(--gold), transparent) 1;
+      transition:border-image .3s ease, transform .2s ease;
+    }
+    .block:hover{ border-image:linear-gradient(90deg, transparent, #e7c984, transparent) 1; transform:translateY(-1px); }
+    .block:last-child{ border-bottom:none; }
 
-    footer{margin-top:clamp(32px,6vw,48px);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:.9rem;text-align:center}
-    .dot{color:var(--gold);margin:0 6px}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 20px; border-radius:999px; text-decoration:none; font-size:1rem;
+      position:relative; overflow:hidden;
+    }
+    .btn-copper{
+      border:1px solid var(--copper);
+      background:linear-gradient(180deg,var(--copper),var(--copper-light));
+      color:#fff; box-shadow:0 4px 14px rgba(156,94,45,.3);
+      transition:filter .2s ease, transform .2s ease;
+    }
+    .btn-copper:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+    .btn-olive{
+      border:1px solid var(--olive);
+      background:linear-gradient(180deg,#54692a,var(--olive));
+      color:#fff; box-shadow:0 4px 14px rgba(74,93,35,.25);
+      transition:filter .2s ease, transform .2s ease;
+    }
+    .btn-olive:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+    /* Shimmer on buttons */
+    .cta:hover::after{
+      content:""; position:absolute; inset:0;
+      background:var(--shimmer);
+      transform:skewX(-18deg) translateX(-120%);
+      animation: sheen 900ms ease-out forwards;
+      pointer-events:none;
+    }
 
+    footer{
+      margin-top:clamp(32px,6vw,48px);
+      display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px;
+      color:var(--muted); font-size:.9rem; text-align:center;
+    }
+    .dot{ color:var(--gold); margin:0 6px; }
+
+    /* Page toggle */
     .page{display:none}
-    #home:target,body:not(:target) #home{display:block}
+    #home:target, body:not(:target) #home{display:block}
     #vault:target{display:block}
 
-    .vault-card{max-width:520px;margin:0 auto;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 10px 26px rgba(0,0,0,.08)}
+    /* Vault */
+    .vault-card{
+      max-width:520px; margin:0 auto; text-align:left; background:#fff; border:1px solid var(--line);
+      border-radius:20px; padding:28px; box-shadow:0 10px 26px rgba(0,0,0,.08);
+    }
     .vault-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--olive-ink);margin:0 0 6px}
     .vault-sub{color:var(--muted);margin:0 0 18px}
     .field{display:grid;gap:8px;margin:14px 0}
@@ -108,27 +232,33 @@
         <div class="motto">Expertise anchored in excellence</div>
       </header>
 
-      <div class="divider"></div>
+      <div class="divider" aria-hidden="true"></div>
 
-      <div class="section">
+      <div class="section" aria-label="Contact details">
         <div class="block">
           <span class="label">Email</span>
-          <div class="contact"><a href="mailto:info@veltisyachts.com">info@veltisyachts.com</a></div>
+          <div class="contact">
+            <a href="mailto:info@veltisyachts.com">info@veltisyachts.com</a>
+          </div>
         </div>
+
         <div class="block">
           <span class="label">Telephone</span>
           <div class="contact">
-            <a href="tel:+447538737161">+44 7538 737161</a>
-            <a href="tel:+33633426645">+33 6 33 42 66 45</a>
+            <a href="tel:+447538737161"><strong>Alistair</strong> — +44 7538 737161</a>
+            <a href="tel:+33633426645"><strong>Thomas</strong> — +33 6 33 42 66 45</a>
           </div>
         </div>
+
         <div class="block">
           <span class="label">Enquiries</span>
-          <div class="contact"><a class="cta btn-copper" href="mailto:info@veltisyachts.com">Email Us</a></div>
+          <div class="contact">
+            <a class="cta btn-copper" href="mailto:info@veltisyachts.com">Email Us</a>
+          </div>
         </div>
       </div>
 
-      <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <div style="margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
         <a class="cta btn-olive" href="#vault">Veltis Vault</a>
       </div>
 
@@ -139,7 +269,7 @@
     </section>
 
     <!-- VAULT PAGE -->
-    <section id="vault" class="panel page">
+    <section id="vault" class="panel page" role="region" aria-labelledby="vault-title">
       <header class="brand" style="margin-bottom:12px;">
         <div class="logo-wrap" style="width:clamp(120px,20vw,180px)">
           <div class="logo-mask" aria-label="VELTIS logo"></div>
@@ -150,14 +280,14 @@
       <div class="vault-card">
         <h2 class="vault-title">Sign in</h2>
         <p class="vault-sub">Access curated assets and private documents.</p>
-        <form onsubmit="return false">
+        <form onsubmit="return false" aria-label="Veltis Vault login form">
           <div class="field">
             <label for="username">Username</label>
-            <input id="username" type="text" autocomplete="username" placeholder="Your username" />
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Your username" />
           </div>
           <div class="field">
             <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" />
           </div>
           <div class="vault-actions">
             <button class="cta btn-olive" type="submit">Login</button>
