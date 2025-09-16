@@ -27,9 +27,9 @@
     :root{
       --bg:#f8f8f6; --fg:#0b0b0b; --muted:#6b705e;
       --olive:#4A5D23; --olive-ink:#3f5120;
-      --gold:#C9A96A; 
-      --copper:#9c5e2d;      /* darker bronze-copper */
-      --copper-light:#b8743d; /* lighter for gradients */
+      --gold:#C9A96A;
+      --copper:#9c5e2d;      /* bronze-copper */
+      --copper-light:#b8743d;
       --line:#e0e0dc; --panel:#ffffff;
       --shimmer: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.65) 45%, rgba(255,255,255,0) 70%);
     }
@@ -42,6 +42,31 @@
       line-height:1.65; -webkit-font-smoothing:antialiased;
     }
 
+    /* ---------- SPLASH ---------- */
+    .splash{
+      position:fixed; inset:0; z-index:9999;
+      display:grid; place-items:center;
+      background: radial-gradient(80% 80% at 50% 50%, #101010 0%, #080808 60%, #000 100%);
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    .splash--hide{ opacity:0; visibility:hidden; }
+
+    .splash__logo{
+      width:min(42vw, 300px);
+      aspect-ratio:1/1;
+      background-color:var(--copper);
+      -webkit-mask:url("Veltis Logo.png") center/contain no-repeat;
+              mask:url("Veltis Logo.png") center/contain no-repeat;
+      animation: pulse 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 14px rgba(156,94,45,.45));
+    }
+    @keyframes pulse{
+      0%   { transform:scale(0.96); filter: drop-shadow(0 0 10px rgba(156,94,45,.35)); }
+      50%  { transform:scale(1.02); filter: drop-shadow(0 0 22px rgba(156,94,45,.6)); }
+      100% { transform:scale(0.96); filter: drop-shadow(0 0 10px rgba(156,94,45,.35)); }
+    }
+
+    /* ---------- MAIN LAYOUT ---------- */
     .wrap{min-height:100%;display:grid;place-items:center;padding:6vh 5vw}
     .panel{
       width:100%;max-width:960px;padding:clamp(28px,6vw,72px);
@@ -51,85 +76,39 @@
     }
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* Brand header */
     header.brand{
-      display:flex;             /* tighter control than grid */
-      flex-direction:column;
-      align-items:center;
-      gap:0;
-      margin-bottom:clamp(20px,4vw,36px);
-      position:relative;
+      display:flex; flex-direction:column; align-items:center; gap:0;
+      margin-bottom:clamp(20px,4vw,36px); position:relative;
     }
-    .logo-wrap{
-      position:relative;
-      width:clamp(160px,28vw,260px);
-      margin-inline:auto;
-      margin:0;
-    }
-    /* Copper mask logo (exact tone) */
+    .logo-wrap{ position:relative; width:clamp(160px,28vw,260px); margin:0 auto; }
     .logo-mask{
-      width:100%;
-      aspect-ratio:1/1;
-      background-color:var(--copper);
+      width:100%; aspect-ratio:1/1; background-color:var(--copper);
       -webkit-mask:url("Veltis Logo.png") center/contain no-repeat;
               mask:url("Veltis Logo.png") center/contain no-repeat;
-      display:block;
-      position:relative;
-      overflow:hidden;
+      position:relative; overflow:hidden;
     }
-
-    /* Shimmer on hover (logo) */
     .logo-wrap:hover .logo-mask::after{
-      content:"";
-      position:absolute; inset:0;
-      background:var(--shimmer);
-      transform:skewX(-18deg) translateX(-120%);
-      animation: sheen 1200ms ease-out forwards;
-      pointer-events:none;
+      content:""; position:absolute; inset:0; background:var(--shimmer);
+      transform:skewX(-18deg) translateX(-120%); animation: sheen 1200ms ease-out forwards;
     }
-    @keyframes sheen{
-      to{ transform:skewX(-18deg) translateX(120%); }
-    }
+    @keyframes sheen{ to{ transform:skewX(-18deg) translateX(120%);} }
 
     .wordmark{
-      margin:0;
-      line-height:1;
-      margin-top:-6px;                /* pull closer to logo */
-      font-size:clamp(28px,5vw,42px);
-      letter-spacing:.18em;
-      font-weight:500;
-      color:var(--copper);
-      position:relative;
+      margin:0; margin-top:-6px; line-height:1;
+      font-size:clamp(28px,5vw,42px); letter-spacing:.18em; font-weight:500; color:var(--copper);
     }
-    /* Shimmer on hover (wordmark) */
-    .wordmark:hover{
-      background-image:linear-gradient(90deg,var(--copper),#c07a3d,var(--copper));
-      background-size:200% 100%;
-      -webkit-background-clip:text; background-clip:text;
-      color:transparent;
-      animation: shimmerText 1.2s linear forwards;
-    }
-    @keyframes shimmerText{ to{ background-position: -200% 0; } }
-
     .motto{
-      margin:2px 0 0 0;
-      line-height:1.2;
-      font-family:'Playfair Display',serif;
-      font-size:1rem; font-style:italic; font-weight:400; letter-spacing:.04em; color:var(--fg);
+      margin:2px 0 0 0; line-height:1.2;
+      font-family:'Playfair Display',serif; font-size:1rem; font-style:italic; font-weight:400; letter-spacing:.04em; color:var(--fg);
     }
 
     .divider{
-      height:1px;
-      background:linear-gradient(90deg, transparent, var(--line), transparent);
-      margin:clamp(18px,3vw,28px) 0;
-      position:relative; overflow:hidden;
+      height:1px; background:linear-gradient(90deg, transparent, var(--line), transparent);
+      margin:clamp(18px,3vw,28px) 0; position:relative; overflow:hidden;
     }
-    /* Shimmer on hover (divider) */
     .divider:hover::after{
-      content:""; position:absolute; inset:0;
-      background:var(--shimmer);
-      transform:translateX(-120%);
-      animation: sheen 900ms ease-out forwards;
+      content:""; position:absolute; inset:0; background:var(--shimmer);
+      transform:translateX(-120%); animation: sheen 900ms ease-out forwards;
     }
 
     .section{display:grid;gap:40px;margin-top:20px;justify-items:center}
@@ -137,21 +116,10 @@
       display:block;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;
       position:relative; overflow:hidden;
     }
-    .label:hover::after{ /* shimmer on labels */
-      content:""; position:absolute; inset:0;
-      background:var(--shimmer);
-      transform:translateX(-120%);
-      animation: sheen 900ms ease-out forwards;
-    }
+    .label:hover::after{ content:""; position:absolute; inset:0; background:var(--shimmer); transform:translateX(-120%); animation: sheen 900ms ease-out forwards; }
 
     .contact{display:grid;gap:12px;font-size:clamp(16px,2.2vw,18px);justify-items:center}
-    .contact a{
-      color:var(--fg);
-      text-decoration:none;
-      border-bottom:1px solid transparent;
-      transition:border-color .2s ease, color .2s ease, transform .2s ease;
-      display:block;
-    }
+    .contact a{ color:var(--fg); text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s,color .2s,transform .2s; display:block; }
     .contact a:hover{ color:var(--copper); border-color:var(--copper); transform:translateY(-1px); }
     .contact a strong{ color:var(--copper); font-weight:600; }
 
@@ -183,13 +151,9 @@
       transition:filter .2s ease, transform .2s ease;
     }
     .btn-olive:hover{ filter:brightness(1.05); transform:translateY(-1px); }
-    /* Shimmer on buttons */
     .cta:hover::after{
-      content:""; position:absolute; inset:0;
-      background:var(--shimmer);
-      transform:skewX(-18deg) translateX(-120%);
-      animation: sheen 900ms ease-out forwards;
-      pointer-events:none;
+      content:""; position:absolute; inset:0; background:var(--shimmer);
+      transform:skewX(-18deg) translateX(-120%); animation: sheen 900ms ease-out forwards; pointer-events:none;
     }
 
     footer{
@@ -221,6 +185,12 @@
   </style>
 </head>
 <body id="top">
+  <!-- Splash -->
+  <div class="splash" role="dialog" aria-label="VELTIS intro">
+    <div class="splash__logo" aria-hidden="true"></div>
+  </div>
+
+  <!-- Main -->
   <main class="wrap" aria-label="VELTIS">
     <!-- HOME PAGE -->
     <section id="home" class="panel page" role="region" aria-labelledby="brand">
@@ -245,8 +215,8 @@
         <div class="block">
           <span class="label">Telephone</span>
           <div class="contact">
-            <a href="tel:+447538737161"><strong>Alistair</strong> — +44 7538 737161</a>
-            <a href="tel:+33633426645"><strong>Thomas</strong> — +33 6 33 42 66 45</a>
+            <a href="tel:+447538737161"><strong>Alistair</strong>  +44 7538 737161</a>
+            <a href="tel:+33633426645"><strong>Thomas</strong>  +33 6 33 42 66 45</a>
           </div>
         </div>
 
@@ -303,8 +273,20 @@
   </main>
 
   <script>
+    // Years
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('year2').textContent = new Date().getFullYear();
+
+    // Splash timing: adjust durationMs as needed (e.g., 1800–3000)
+    const durationMs = 2200;
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.querySelector('.splash');
+        splash.classList.add('splash--hide');
+        // optional: remove from DOM after fade
+        setTimeout(() => splash.remove(), 700);
+      }, durationMs);
+    });
   </script>
 </body>
 </html>
